@@ -1,6 +1,19 @@
 [package]
 name = "xinput-g474"
-version = "0.1.0"
-edition = "2024"
+version = "YYY-YYY"
 
 [dependencies]
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+
+panic-probe = "0.3"
+
+stm32g4xx-hal = { 
+    version = "0.1.0", 
+    features = [
+	"stm32g474",
+	"usb",
+    ] 
+}
+
+usb-device = "0.3"
