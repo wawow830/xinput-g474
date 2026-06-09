@@ -1,6 +1,6 @@
 [package]
 name = "xinput-g474"
-version = "YYY-YYY"
+version = "0.1.0"
 
 [dependencies]
 cortex-m = "0.7"
