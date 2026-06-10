@@ -10,7 +10,7 @@ pub const DEVICE_PROTOCOL: u8 = 0xff;
 // USB Device Configuration
 pub const MAX_PACKET_SIZE_0: u8 = 8;
 pub const DEVICE_RELEASE: u16 = 0x0114;
-pub const MAX_POWER_MA: u16 = 500;
+pub const MAX_POWER_MA: usize = 500;
 
 // USB Strings
 pub const MANUFACTURER: &str = "©Microsoft Corporation";

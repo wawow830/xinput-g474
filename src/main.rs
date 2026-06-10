@@ -6,6 +6,11 @@ use panic_probe as _;
 
 use stm32g4xx_hal as hal;
 
+use usb_device::{
+    prelude::*,
+    device::UsbRev,
+};
+
 use hal::{
     prelude::*,
     pwr::PwrExt,
@@ -16,6 +21,9 @@ use hal::{
 
 mod constants;
 use constants::*;
+
+mod xinput;
+use xinput::XInput;
 
 #[entry]
 fn main() -> ! {
@@ -39,7 +47,7 @@ fn main() -> ! {
 
     let usb_bus = UsbBus::new(usb);
 
-    let mut xinput = XInputClass::new(&usb_bus);
+    let mut xinput = XInput::new(&usb_bus);
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(VENDOR_ID, PRODUCT_ID))
         .device_class(DEVICE_CLASS)
