@@ -59,6 +59,43 @@ pub const IF3_ALT_SETTING: u8 = 0;
 pub const DESC_TYPE_XBOX: u8 = 0x21;
 pub const DESC_TYPE_SECURITY: u8 = 0x41;
 
+// XInput packet sizes
+pub const XINPUT_REPORT_SIZE: usize = 20;
+pub const XINPUT_OUT_PACKET_SIZE: usize = 32;
+
+// XInput button bit masks
+pub const DPAD_UP: u8 = 1 << 0;
+pub const DPAD_DOWN: u8 = 1 << 1;
+pub const DPAD_LEFT: u8 = 1 << 2;
+pub const DPAD_RIGHT: u8 = 1 << 3;
+pub const START: u8 = 1 << 4;
+pub const BACK: u8 = 1 << 5;
+pub const LEFT_STICK: u8 = 1 << 6;
+pub const RIGHT_STICK: u8 = 1 << 7;
+
+pub const LEFT_BUMPER: u8 = 1 << 0;
+pub const RIGHT_BUMPER: u8 = 1 << 1;
+pub const GUIDE: u8 = 1 << 2;
+pub const A: u8 = 1 << 4;
+pub const B: u8 = 1 << 5;
+pub const X: u8 = 1 << 6;
+pub const Y: u8 = 1 << 7;
+
+// Controller config
+pub const ADC_MIN: u16 = 0;
+pub const ADC_CENTER: u16 = 2048;
+pub const ADC_MAX: u16 = 4095;
+
+pub const LEFT_X_INVERT: bool = false;
+pub const LEFT_Y_INVERT: bool = true;
+pub const RIGHT_X_INVERT: bool = false;
+pub const RIGHT_Y_INVERT: bool = true;
+
+pub const LEFT_X_SQUARED: bool = true;
+pub const LEFT_Y_SQUARED: bool = true;
+pub const RIGHT_X_SQUARED: bool = true;
+pub const RIGHT_Y_SQUARED: bool = true;
+
 // Descriptor Data
 pub const IF0_DESCRIPTOR: &[u8] = &[
     0x00, 0x01, 0x01, 0x25, 0x81, 0x14, 0x00, 0x00, 0x00, 0x00, 0x13, 0x01, 0x08, 0x00, 0x00,
