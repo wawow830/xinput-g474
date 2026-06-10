@@ -14,6 +14,9 @@ use hal::{
     usb::{Peripheral, UsbBus},
 };
 
+mod constants;
+use constants::*;
+
 #[entry]
 fn main() -> ! {
     let peripherals = stm32::Peripherals::take().unwrap();
@@ -32,27 +35,29 @@ fn main() -> ! {
         usb: peripherals.USB,
         pin_dm: usb_dm,
         pin_dp: usb_dp,
-    }
+    };
 
     let usb_bus = UsbBus::new(usb);
 
-    let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x045e, 0x028e))
-    .device_class(0xff)
-    .device_sub_class(0xff)
-    .device_protocol(0xff)
-    .usb_rev(UsbRev::Usb200)
-    .max_packet_size_0(8).unwrap()
-    .device_release(0x0114)
-    .supports_remote_wakeup(true)
-    .max_power(500).unwrap()
-    .strings(&[StringDescriptors::default()
-       .manufacturer("©Microsoft Corporation")
-       .product("Controller")
-       .serial_number("00000001")])
-    .unwrap()
-    .build()
+    let mut xinput = XInputClass::new(&usb_bus);
+
+    let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(VENDOR_ID, PRODUCT_ID))
+        .device_class(DEVICE_CLASS)
+        .device_sub_class(DEVICE_SUB_CLASS)
+        .device_protocol(DEVICE_PROTOCOL)
+        .usb_rev(UsbRev::Usb200)
+        .max_packet_size_0(MAX_PACKET_SIZE_0).unwrap()
+        .device_release(DEVICE_RELEASE)
+        .supports_remote_wakeup(true)
+        .max_power(MAX_POWER_MA).unwrap()
+        .strings(&[StringDescriptors::default()
+            .manufacturer(MANUFACTURER)
+            .product(PRODUCT)
+            .serial_number(SERIAL_NUMBER)])
+        .unwrap()
+        .build();
 
     loop {
-
+        usb_dev.poll(&mut [&mut xinput]);
     }
 }
