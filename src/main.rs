@@ -36,6 +36,22 @@ fn main() -> ! {
 
     let usb_bus = UsbBus::new(usb);
 
+    let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x045e, 0x028e))
+    .device_class(0xff)
+    .device_sub_class(0xff)
+    .device_protocol(0xff)
+    .usb_rev(UsbRev::Usb200)
+    .max_packet_size_0(8).unwrap()
+    .device_release(0x0114)
+    .supports_remote_wakeup(true)
+    .max_power(500).unwrap()
+    .strings(&[StringDescriptors::default()
+       .manufacturer("©Microsoft Corporation")
+       .product("Controller")
+       .serial_number("00000001")])
+    .unwrap()
+    .build()
+
     loop {
 
     }
