@@ -6,23 +6,21 @@ use panic_probe as _;
 
 use stm32g4xx_hal as hal;
 
-use usb_device::{
-    prelude::*,
-    device::UsbRev,
-};
+use usb_device::{device::UsbRev, prelude::*};
 
 use hal::{
     prelude::*,
     pwr::PwrExt,
-    rcc,
-    stm32,
+    rcc, stm32,
     usb::{Peripheral, UsbBus},
 };
 
 mod constants;
 use constants::*;
 
+mod controls;
 mod xinput;
+use controls::Controls;
 use xinput::XInput;
 
 #[entry]
@@ -47,6 +45,7 @@ fn main() -> ! {
 
     let usb_bus = UsbBus::new(usb);
 
+    let mut controls = Controls::new();
     let mut xinput = XInput::new(&usb_bus);
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(VENDOR_ID, PRODUCT_ID))
@@ -54,10 +53,12 @@ fn main() -> ! {
         .device_sub_class(DEVICE_SUB_CLASS)
         .device_protocol(DEVICE_PROTOCOL)
         .usb_rev(UsbRev::Usb200)
-        .max_packet_size_0(MAX_PACKET_SIZE_0).unwrap()
+        .max_packet_size_0(MAX_PACKET_SIZE_0)
+        .unwrap()
         .device_release(DEVICE_RELEASE)
         .supports_remote_wakeup(true)
-        .max_power(MAX_POWER_MA).unwrap()
+        .max_power(MAX_POWER_MA)
+        .unwrap()
         .strings(&[StringDescriptors::default()
             .manufacturer(MANUFACTURER)
             .product(PRODUCT)
@@ -67,5 +68,9 @@ fn main() -> ! {
 
     loop {
         usb_dev.poll(&mut [&mut xinput]);
+
+        let state = controls.read();
+        let packet = xinput::package(&state);
+        let _ = xinput.send(&packet);
     }
 }
