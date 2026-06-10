@@ -1,3 +1,24 @@
+use stm32g4xx_hal::gpio::{
+    Analog, Input, PA0, PA1, PA10, PA4, PA8, PA9, PB10, PB4, PB5, PB6, PB7, PC0, PC1, PC2,
+};
+
+// Pin mapping. These aliases make `Controls::new(...)` require the expected pins.
+pub type LeftXPin = PA0<Analog>;
+pub type LeftYPin = PA1<Analog>;
+pub type RightXPin = PA4<Analog>;
+pub type RightYPin = PC2<Analog>;
+pub type LeftTriggerPin = PC1<Analog>;
+pub type RightTriggerPin = PC0<Analog>;
+
+pub type APin = PB5<Input>;
+pub type BPin = PB4<Input>;
+pub type XPin = PB10<Input>;
+pub type YPin = PA8<Input>;
+pub type StartPin = PA9<Input>;
+pub type BackPin = PA10<Input>;
+pub type LeftBumperPin = PB6<Input>;
+pub type RightBumperPin = PB7<Input>;
+
 // USB Device IDs
 pub const VENDOR_ID: u16 = 0x045e;
 pub const PRODUCT_ID: u16 = 0x028e;
@@ -59,23 +80,17 @@ pub const IF3_ALT_SETTING: u8 = 0;
 pub const DESC_TYPE_XBOX: u8 = 0x21;
 pub const DESC_TYPE_SECURITY: u8 = 0x41;
 
-// XInput packet sizes
+// XInput packet timing/sizes
+pub const SEND_PERIOD_MS: u32 = 4;
 pub const XINPUT_REPORT_SIZE: usize = 20;
 pub const XINPUT_OUT_PACKET_SIZE: usize = 32;
 
 // XInput button bit masks
-pub const DPAD_UP: u8 = 1 << 0;
-pub const DPAD_DOWN: u8 = 1 << 1;
-pub const DPAD_LEFT: u8 = 1 << 2;
-pub const DPAD_RIGHT: u8 = 1 << 3;
 pub const START: u8 = 1 << 4;
 pub const BACK: u8 = 1 << 5;
-pub const LEFT_STICK: u8 = 1 << 6;
-pub const RIGHT_STICK: u8 = 1 << 7;
 
 pub const LEFT_BUMPER: u8 = 1 << 0;
 pub const RIGHT_BUMPER: u8 = 1 << 1;
-pub const GUIDE: u8 = 1 << 2;
 pub const A: u8 = 1 << 4;
 pub const B: u8 = 1 << 5;
 pub const X: u8 = 1 << 6;
